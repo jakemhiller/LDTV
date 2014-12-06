@@ -5,6 +5,7 @@ var helpers    = require('helpers');
 var game       = require('game');
 
 class Player extends BaseEntity {
+
   defaults() {
     return {
       x: Math.round(game.world.width/2),
@@ -19,8 +20,6 @@ class Player extends BaseEntity {
     console.log('initialize player');
 
     options = _.extend({}, this.defaults(), options);
-
-    // this.bmd = helpers.createBlock(options.w, options.h, options.color);
 
     this.instance = game.add.sprite(
       options.x,
@@ -43,6 +42,11 @@ class Player extends BaseEntity {
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
   }
+
+  isOnFloor() {
+    return this.instance.body.touching.down;
+  }
+
 }
 
 module.exports = Player;

@@ -18,7 +18,6 @@ class MainState extends BaseState {
     this.cursors   = null;
     this.scoretext = null;
 
-    this.playerScale = 1;
     this.timer = 0;
 
     this.score             = 0;
@@ -29,10 +28,7 @@ class MainState extends BaseState {
 
   preload() {
     game.stage.backgroundColor = '#000';
-    // game.load.image('sky', '/assets/images/sky.png');
-    // game.load.image('ground', '/assets/images/platform.png');
     game.load.image('circle', '/assets/images/circle.svg');
-    // game.load.atlasJSONHash('dude', '/assets/images/spritesheet.png', '/assets/images/spritesheet.json');
   }
 
   create() {
@@ -56,7 +52,7 @@ class MainState extends BaseState {
     var platHeight = Math.round((game.world.height - this.groundPlatform.body.height) / 5);
     var platY      = platHeight;
     var platCount  = 5;
-    // var colors = ['#FF2D6E', '#FF4C34', '#FF7B2A', '#FFA322', '#FFCF2B'];
+
     var colors = ['#5D2EFF', '#844BFF', '#AE63FF', '#CF71FF', '#EF7AFF'];
     var collPositions = [];
 
@@ -71,7 +67,7 @@ class MainState extends BaseState {
         h: platHeight,
         color: colors[i]
       });
-    };
+    }
 
     var collCount = 10;
 
@@ -83,8 +79,7 @@ class MainState extends BaseState {
         w: 20,
         h: 20
       });
-    };
-
+    }
 
     this.cursors = game.input.keyboard.createCursorKeys();
   }
@@ -95,7 +90,6 @@ class MainState extends BaseState {
 
   collect(player, item) {
     item.kill();
-    this.playerScale += 0.1;
   }
 
   update() {
@@ -109,20 +103,6 @@ class MainState extends BaseState {
     var ySpeed = 550;
     var xSmooth = 20;
 
-    console.log(this.player.body.sprite);
-
-    if ((game.time.now - this.timer) > 100) {
-      this.playerScale = (this.playerScale - 0.015);
-      this.player.body.sprite.scale.setTo(this.playerScale, this.playerScale);
-      this.timer = game.time.now;
-    }
-
-    if (this.playerScale < 0) {
-      console.log('kill', this.player);
-      this.player.instance.kill()
-    };
-    console.log(this.player);
-
     if (pVelo.y > 0 && !this.shouldPhasePlatforms()) {
       // Collide with platforms if above them and not pressing down
       game.physics.arcade.collide(this.player.instance, this.platforms.group, _.noop, function() {
@@ -130,7 +110,7 @@ class MainState extends BaseState {
       }, this);
     }
 
-    var onFloor = this.player.body.touching.down;
+    var onFloor = this.player.isOnFloor();
 
     if (this.cursors.left.isDown) {
       // stop right momentum
