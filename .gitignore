@@ -21,7 +21,4 @@ node_modules
 Thumbs.db
 .sass-cache
 
-.sublime-project
-.sublime-workspace
-
 dist/
