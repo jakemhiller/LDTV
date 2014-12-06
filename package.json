@@ -1,0 +1,41 @@
+
+{
+  "name": "LDTV",
+  "author": {
+    "name": "Jake Hiller & Dan Ordille",
+    "email": "jakemhiller@gmail.com",
+    "url": "http://github.com/jakemhiller/LDTV"
+  },
+  "version": "0.0.1",
+  "description": "",
+  "dependencies": {
+    "lodash": "latest",
+    "es6ify": "latest",
+    "gulp-traceur": "latest",
+    "browserify": "latest",
+    "vinyl-source-stream": "latest"
+  },
+  "browser": {
+    "phaser": "./bower_components/phaser/phaser.js",
+    "lo-dash": "./node_modules/lodash/dist/lodash.js"
+  },
+  "devDependencies": {
+    "connect": "~2.12.0",
+    "gulp": "latest",
+    "gulp-coffee": "latest",
+    "gulp-concat": "latest",
+    "gulp-livereload": "latest",
+    "gulp-sass": "latest",
+    "gulp-uglify": "latest",
+    "gulp-util": "latest",
+    "tiny-lr": "latest",
+    "coffee-script": "latest",
+    "gulp-browserify": "latest",
+    "coffeeify": "latest",
+    "gulp-imagemin": "latest",
+    "gulp-if": "latest",
+    "rimraf": "latest",
+    "gulp-plumber": "latest"
+  },
+  "repository": {}
+}

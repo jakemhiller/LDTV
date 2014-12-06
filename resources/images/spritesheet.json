@@ -1,0 +1,81 @@
+{
+	"meta": {
+		"image": "spritesheet.png",
+		"size": {"w":135,"h":80},
+		"scale": "1"
+	},
+	"frames": {
+		"dude-01.png":
+		{
+            "frame": {"x":0,"y":0,"w":27,"h":40},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w":27,"h":40},
+            "sourceSize": {"w":27,"h":40}
+		},
+		"dude-02.png":
+		{
+            "frame": {"x":27,"y":0,"w":27,"h":40},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w":27,"h":40},
+            "sourceSize": {"w":27,"h":40}
+		},
+		"dude-03.png":
+		{
+            "frame": {"x":54,"y":0,"w":27,"h":40},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w":27,"h":40},
+            "sourceSize": {"w":27,"h":40}
+		},
+		"dude-04.png":
+		{
+            "frame": {"x":0,"y":40,"w":27,"h":40},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w":27,"h":40},
+            "sourceSize": {"w":27,"h":40}
+		},
+		"dude-05.png":
+		{
+            "frame": {"x":27,"y":40,"w":27,"h":40},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w":27,"h":40},
+            "sourceSize": {"w":27,"h":40}
+		},
+		"dude-06.png":
+		{
+            "frame": {"x":54,"y":40,"w":27,"h":40},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w":27,"h":40},
+            "sourceSize": {"w":27,"h":40}
+		},
+		"dude-07.png":
+		{
+            "frame": {"x":81,"y":0,"w":27,"h":40},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w":27,"h":40},
+            "sourceSize": {"w":27,"h":40}
+		},
+		"dude-08.png":
+		{
+			"frame": {"x":81,"y":40,"w":27,"h":40},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":2,"y":0,"w":27,"h":40},
+			"sourceSize": {"w":31,"h":40}
+		},
+		"dude-09.png":
+		{
+            "frame": {"x":108,"y":0,"w":27,"h":40},
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {"x":0,"y":0,"w":27,"h":40},
+            "sourceSize": {"w":27,"h":40}
+		}
+	}
+}

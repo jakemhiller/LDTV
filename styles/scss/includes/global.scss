@@ -1,0 +1,16 @@
+html,body {
+  height: 100%;
+  overflow: hidden;
+  background-color: #000;
+}
+
+#game {
+  height: 100%;
+  display: block;
+}
+
+canvas {
+  display: inline-block;
+  margin: 30px auto;
+  vertical-align: middle;
+}
