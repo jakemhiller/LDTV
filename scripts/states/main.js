@@ -31,25 +31,60 @@ class MainState extends BaseState {
     game.load.image('circle', '/assets/images/circle.svg');
   }
 
+  createFrame() {
+    this.frames = new Platforms();
+
+    // bottom
+    this.frames.add({
+      y: game.world.height - this.frameHeight,
+      w: game.world.width,
+      h: this.frameHeight,
+      color: '#3E0F7B'
+    });
+
+    // top
+    this.frames.add({
+      y: 0,
+      w: game.world.width,
+      h: this.frameHeight,
+      color: '#3E0F7B'
+    });
+
+
+    this.frames.add({
+      y: 0,
+      x: game.world.width - this.frameWidth,
+      w: this.frameWidth,
+      h: game.world.height,
+      color: '#3E0F7B'
+    });
+
+    this.frames.add({
+      y: 0,
+      x: 0,
+      w: this.frameWidth,
+      h: game.world.height,
+      color: '#3E0F7B'
+    });
+  }
+
   create() {
+    this.frameHeight = game.world.height * 0.2;
+    this.frameWidth = game.world.width * 0.2;
+
     game.physics.startSystem(Phaser.Physics.ARCADE);
     this.platforms = new Platforms();
     this.collectables = new Collectables();
     var groundHeight = 20;
 
     this.player = new Player({
-      y: game.world.height - 35,
+      y: game.world.height - (this.frameHeight + 35),
       color: '#FFFFFF'
     });
 
-    this.groundPlatform = new Solid({
-      y: game.world.height - 20,
-      w: game.world.width,
-      h: 20,
-      color: '#3E0F7B' // #870CFF
-    });
+    this.createFrame();
 
-    var platHeight = Math.round((game.world.height - this.groundPlatform.body.height) / 5);
+    var platHeight = Math.round((game.world.height - (this.frameHeight * 2)) / 5);
     var platY      = platHeight;
     var platCount  = 5;
 
@@ -58,7 +93,7 @@ class MainState extends BaseState {
 
     for (var i = 0; i <= platCount; i++) {
       platY = (platHeight * (i+1));
-      var pY = game.world.height - (platY + this.groundPlatform.body.height);
+      var pY = game.world.height - (platY + this.frameHeight);
       collPositions.push(pY + (platHeight / 2));
       this.platforms.add({
         x: 0,
@@ -93,7 +128,7 @@ class MainState extends BaseState {
   }
 
   update() {
-    game.physics.arcade.collide(this.player.instance, this.groundPlatform.instance);
+    game.physics.arcade.collide(this.player.instance, this.frames.group);
 
     game.physics.arcade.overlap(this.player.instance, this.collectables.group, this.collect, null, this);
 

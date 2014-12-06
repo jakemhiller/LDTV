@@ -2,7 +2,7 @@
 
 module.exports = new Phaser.Game(
   800, // Width
-  450, // Height Math.round((9/16) * 800)
+  600, // Height Math.round((9/16) * 800)
   Phaser.CANVAS, // CANVAS / AUTO
   'game'
 );
