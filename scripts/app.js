@@ -1,4 +1,3 @@
-// jshint esnext:true
 
 var game      = require('game');
 var MainState = require('states/main');

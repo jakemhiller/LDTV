@@ -1,15 +1,14 @@
-// jshint esnext:true
 
 var _           = require('lodash');
 var PhaserDebug = require('phaser-debug');
 
 var BaseState = require('states/base');
 var game      = require('game');
-var utils     = require('utils');
+
 var mapUtils  = require('utils/map');
 
 var Player       = require('entities/player');
-var Solid        = require('entities/solid');
+
 var Platforms    = require('entities/platforms');
 var Collectables = require('entities/collectables');
 

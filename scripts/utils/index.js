@@ -1,4 +1,4 @@
-// jshint esnext:true
+
 var game = require('game');
 
 var Utils = {
