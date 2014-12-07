@@ -37,8 +37,6 @@ class MainState extends BaseState {
 
   create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
-    this.platforms = new Platforms();
-    this.collectables = new Collectables();
 
     this.map = game.add.tilemap('platforms');
     this.map.addTilesetImage('basic-blue', 'sprites');
@@ -46,6 +44,14 @@ class MainState extends BaseState {
     this.mapLayer = this.map.createLayer('Blue Platforms');
     this.mapLayer.resizeWorld();
     this.map.setCollisionBetween(0, 1000);
+
+    this.groundPlatform = new Solid({
+      x: 0,
+      y: game.world.height - 2,
+      h: 2,
+      w: game.world.width,
+      color: 'red'
+    });
 
     this.player = new Player(game, {
       x: 20,
@@ -65,14 +71,14 @@ class MainState extends BaseState {
       platY = (platHeight * (i+1));
       var pY = game.world.height - (platY + this.groundPlatform.body.height);
       collPositions.push(pY + (platHeight / 2));
-      var platform = new Platforms(game, 0, pY, {
-        x: 0,
-        y: pY,
-        w: game.world.width,
-        h: platHeight,
-        color: colors[i]
-      });
-      this.platforms.add(platform);
+      // var platform = new Platforms(game, 0, pY, {
+      //   x: 0,
+      //   y: pY,
+      //   w: game.world.width,
+      //   h: platHeight,
+      //   color: colors[i]
+      // });
+      // this.platforms.add(platform);
     }
 
     this.collectables = game.add.group();
@@ -124,16 +130,15 @@ class MainState extends BaseState {
   }
 
   update() {
+    // tilemap
+    game.physics.arcade.collide(this.player, this.mapLayer);
+    game.physics.arcade.collide(this.collectables, this.mapLayer);
+
     game.physics.arcade.collide(this.player, this.groundPlatform.instance);
 
     game.physics.arcade.overlap(this.player, this.collectables, this.collect, null, this);
 
     game.physics.arcade.collide(this.collectables, this.platforms, _.noop, this.collide);
-
-    // tilemap
-    game.physics.arcade.collide(this.player.instance, this.mapLayer);
-    game.physics.arcade.collide(this.collectables.group, this.mapLayer);
-
 
     var pVelo = this.player.body.velocity;
 
