@@ -1,15 +1,16 @@
 // jshint esnext:true
 
-var _         = require('lodash');
+var _           = require('lodash');
 var PhaserDebug = require('phaser-debug');
 
 var BaseState = require('states/base');
 var game      = require('game');
-var helpers   = require('helpers');
+var utils     = require('utils');
+var mapUtils  = require('utils/map');
 
-var Player    = require('entities/player');
-var Solid     = require('entities/solid');
-var Platforms = require('entities/platforms');
+var Player       = require('entities/player');
+var Solid        = require('entities/solid');
+var Platforms    = require('entities/platforms');
 var Collectables = require('entities/collectables');
 
 class MainState extends BaseState {
@@ -39,16 +40,40 @@ class MainState extends BaseState {
     game.load.image('sprite-channel-2', 'assets/tilemaps/ldtv/basic-blue.png');
   }
 
+
+  createPlayer() {
+    var playerPosition = mapUtils.findObjects(this.map, 'PlayerData', 'playerStart');
+
+    return new Player(game, {
+      x: playerPosition[0].x,
+      y: playerPosition[0].y,
+      color: '#FFFFFF'
+    });
+  }
+
+  createPlatforms() {
+    var platforms = game.add.group();
+    var platformData = mapUtils.findObjects(this.map, 'Platforms');
+
+    _.each(platformData, function(element) {
+      mapUtils.createFromObject(element, platforms);
+    }, this);
+
+    console.log(platforms);
+
+    return platforms;
+  }
+
   create() {
     this.game.plugins.add(PhaserDebug);
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     this.map = game.add.tilemap('platforms');
     this.map.addTilesetImage('basic-blue', 'sprite-channel-0');
-
+    console.log(this.map);
     // this.mapLayer = this.map.createLayer('Blue Platforms');
     // this.mapLayer.resizeWorld();
-    this.map.setCollisionBetween(0, 1000);
+    // this.map.setCollisionBetween(0, 1000);
 
     this.groundPlatform = new Solid({
       x: 0,
@@ -58,11 +83,7 @@ class MainState extends BaseState {
       color: 'red'
     });
 
-    this.player = new Player(game, {
-      x: 20,
-      y: 375,
-      color: '#FFFFFF'
-    });
+    this.player = this.createPlayer();
 
     var platHeight = Math.round((game.world.height - this.groundPlatform.body.height) / 5);
     var platY      = platHeight;
@@ -71,20 +92,7 @@ class MainState extends BaseState {
     var colors = ['#5D2EFF', '#844BFF', '#AE63FF', '#CF71FF', '#EF7AFF'];
     var collPositions = [];
 
-    this.platforms = game.add.group();
-    for (var i = 0; i <= platCount; i++) {
-      platY = (platHeight * (i+1));
-      var pY = game.world.height - (platY + this.groundPlatform.body.height);
-      collPositions.push(pY + (platHeight / 2));
-      // var platform = new Platforms(game, 0, pY, {
-      //   x: 0,
-      //   y: pY,
-      //   w: game.world.width,
-      //   h: platHeight,
-      //   color: colors[i]
-      // });
-      // this.platforms.add(platform);
-    }
+    this.platforms = this.createPlatforms();
 
     this.collectables = game.add.group();
     var collCount = 10;

@@ -1,7 +1,7 @@
 // jshint esnext:true
 var _          = require('lodash');
 var Sprite     = require('./sprite');
-var helpers    = require('helpers');
+var utils      = require('utils');
 var game       = require('game');
 
 class Collectable extends Sprite {
@@ -22,7 +22,7 @@ class Collectable extends Sprite {
 
   constructor(game, options) {
     options = _.extend({}, this.entity_defaults(), options);
-    super(game, options.x, options.y, helpers.createBlock(options.w, options.h, options.color));
+    super(game, options.x, options.y, utils.createBlock(options.w, options.h, options.color));
 
     game.physics.arcade.enableBody(this);
 

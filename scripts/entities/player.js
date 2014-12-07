@@ -1,7 +1,6 @@
 // jshint esnext:true
 var _          = require('lodash');
 var Sprite     = require('./sprite');
-var helpers    = require('helpers');
 var game       = require('game');
 
 class Player extends Sprite {

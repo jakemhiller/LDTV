@@ -1,7 +1,7 @@
 // jshint esnext:true
 var _          = require('lodash');
 var BaseEntity = require('./base');
-var helpers    = require('helpers');
+var utils      = require('utils');
 var game       = require('game');
 
 class Platform extends BaseEntity {
@@ -23,7 +23,7 @@ class Platform extends BaseEntity {
     this.instance = game.add.sprite(
       options.x,
       options.y,
-      helpers.createBlock(options.w, options.h, options.color)
+      utils.createBlock(options.w, options.h, options.color)
     );
 
     game.physics.arcade.enableBody(this.instance);

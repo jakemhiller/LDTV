@@ -1,7 +1,7 @@
 // jshint esnext:true
 var _          = require('lodash');
 var Sprite     = require('./sprite');
-var helpers    = require('helpers');
+var utils      = require('utils');
 var game       = require('game');
 
 class Platforms extends Sprite {
@@ -22,8 +22,8 @@ class Platforms extends Sprite {
 
   constructor(game, x, y, options) {
     this.options = _.extend({}, this.defaults(), options);
-    super(game, x, y, helpers.createBlock(this.options.w, this.options.h, this.options.color));
-    
+    super(game, x, y, utils.createBlock(this.options.w, this.options.h, this.options.color));
+
     game.physics.arcade.enableBody(this);
     game.add.existing(this);
     this.body.immovable = true;

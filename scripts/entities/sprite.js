@@ -1,5 +1,5 @@
 // jshint esnext:true
-//
+
 class Sprite extends Phaser.Sprite {
 
   canCollide() {
