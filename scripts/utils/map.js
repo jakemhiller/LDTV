@@ -5,17 +5,16 @@ var MapUtils = {
     //find objects in a Tiled layer that containt a property called "type" equal to a certain value
   findObjects: function(map, layer, type) {
     var result = [];
-    console.log(layer, map.objects[layer]);
-    map.objects[layer].forEach(function(element){
 
+    map.objects[layer].forEach(function(element){
       //omit type to include all objects in layer
       if (!type) {
         result.push(element);
       } else if ((element.type === type) || (element.properties.type === type)) {
         result.push(element);
       }
-
     });
+
     return result;
   },
 

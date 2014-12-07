@@ -12,15 +12,11 @@
     "es6ify": "latest",
     "gulp-traceur": "latest",
     "lodash": "latest",
-    "phaser-debug": "^1.1.4",
-    "phaser-tiled": "^1.2.2",
-    "vinyl-source-stream": "latest"
-  },
-  "browser": {
-    "phaser": "./bower_components/phaser/phaser.js",
-    "lo-dash": "./node_modules/lodash/dist/lodash.js"
+    "phaser": "latest",
+    "phaser-debug": "latest"
   },
   "devDependencies": {
+    "vinyl-source-stream": "latest",
     "connect": "~2.12.0",
     "gulp": "latest",
     "gulp-coffee": "latest",

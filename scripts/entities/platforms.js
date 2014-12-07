@@ -31,15 +31,15 @@ class Platforms extends Sprite {
   }
 
   canCollide() {
-    return this.game.state.getCurrentState().currentChannel != 2;
+    return this.game.state.getCurrentState().currentChannel !== 2;
   }
 
   canPhaseDown() {
-    return this.game.state.getCurrentState().currentChannel == 0;
+    return this.game.state.getCurrentState().currentChannel === 0;
   }
 
   canPhaseUp() {
-    return this.game.state.getCurrentState().currentChannel == 0;
+    return this.game.state.getCurrentState().currentChannel === 0;
   }
 
 }
