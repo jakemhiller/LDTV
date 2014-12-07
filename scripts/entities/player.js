@@ -38,7 +38,7 @@ class Player extends Sprite {
   }
 
   isTouching(direction='down') {
-    return this.body.touching[direction];
+    return this.body.blocked[direction];
   }
 
   canCollide() {

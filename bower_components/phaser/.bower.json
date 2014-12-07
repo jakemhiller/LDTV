@@ -1,12 +1,12 @@
 {
   "name": "phaser",
-  "version": "2.0.4",
-  "main": "./phaser.js",
+  "version": "2.2.1",
   "homepage": "http://phaser.io",
   "authors": [
     "photonstorm <rich@photonstorm.com>"
   ],
   "description": "A fun, free and fast 2D game framework for making HTML5 games for desktop and mobile, supporting Canvas and WebGL.",
+  "main": "build/phaser.js",
   "keywords": [
     "html5",
     "game",
@@ -27,13 +27,20 @@
     "mobile"
   ],
   "license": "MIT",
-  "_release": "2.0.4",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "2.2.1",
   "_resolution": {
     "type": "version",
-    "tag": "2.0.4",
-    "commit": "312d41912763d901490a6e00d461f95bf0bf475f"
+    "tag": "v2.2.1",
+    "commit": "62b7fce9c8fc358733df8635fdb7256b92fd6b44"
   },
-  "_source": "git://github.com/nDmitry/bower-phaser.git",
+  "_source": "git://github.com/photonstorm/phaser.git",
   "_target": "*",
   "_originalSource": "phaser"
 }

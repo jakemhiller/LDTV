@@ -17,7 +17,6 @@ class MainState extends BaseState {
     this.player    = null;
     this.cursors   = null;
     this.scoretext = null;
-
     this.timer = 0;
 
     this.score             = 0;
@@ -31,22 +30,26 @@ class MainState extends BaseState {
   preload() {
     game.stage.backgroundColor = '#000';
     game.load.image('circle', '/assets/images/circle.svg');
+
+    game.load.tilemap('platforms', 'assets/tilemaps/ldtv/basic.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.image('sprites', 'assets/tilemaps/ldtv/basic-blue.png');
   }
 
   create() {
-
     game.physics.startSystem(Phaser.Physics.ARCADE);
+    this.platforms = new Platforms();
+    this.collectables = new Collectables();
 
-    this.groundPlatform = new Solid({
-      x: 0,
-      y: game.world.height - 2,
-      h: 2,
-      w: game.world.width,
-      color: 'red'
-    });
+    this.map = game.add.tilemap('platforms');
+    this.map.addTilesetImage('basic-blue', 'sprites');
+
+    this.mapLayer = this.map.createLayer('Blue Platforms');
+    this.mapLayer.resizeWorld();
+    this.map.setCollisionBetween(0, 1000);
 
     this.player = new Player(game, {
-      y: game.world.height - (35 + this.groundPlatform.body.height),
+      x: 20,
+      y: 375,
       color: '#FFFFFF'
     });
 
@@ -72,7 +75,6 @@ class MainState extends BaseState {
       this.platforms.add(platform);
     }
 
-
     this.collectables = game.add.group();
     var collCount = 10;
     for (var i = 0; i <= collCount; i++) {
@@ -91,13 +93,13 @@ class MainState extends BaseState {
     this.currentChannel = this.nextChannel = 0;
 
     var spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    spaceKey.onDown.add(this.changeChannel, this); 
+    spaceKey.onDown.add(this.changeChannel, this);
   }
 
   changeChannel() {
     this.nextChannel = this.currentChannel + 1;
     if (this.nextChannel >= 3) {
-      this.nextChannel = 0
+      this.nextChannel = 0;
     }
   }
 
@@ -128,15 +130,16 @@ class MainState extends BaseState {
 
     game.physics.arcade.collide(this.collectables, this.platforms, _.noop, this.collide);
 
+    // tilemap
+    game.physics.arcade.collide(this.player.instance, this.mapLayer);
+    game.physics.arcade.collide(this.collectables.group, this.mapLayer);
+
+
     var pVelo = this.player.body.velocity;
 
     var xSpeed = 25;
     var ySpeed = 550;
     var xSmooth = 20;
-
-    if (this.playerScale < 0) {
-      this.player.kill()
-    };
 
     game.physics.arcade.collide(this.player, this.platforms, _.noop, this.collide)
 
@@ -176,7 +179,7 @@ class MainState extends BaseState {
     // Change Channel
     if (this.nextChannel != this.currentChannel) {
       this.currentChannel = this.nextChannel;
-      console.log(this.currentChannel)
+      console.log(this.currentChannel);
     }
   }
 

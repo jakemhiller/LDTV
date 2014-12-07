@@ -86,6 +86,13 @@ gulp.task 'images', ->
     .pipe gulp.dest 'dist/assets/images/'
     .pipe refresh server
 
+gulp.task 'tilemaps', ->
+  gulp.src 'resources/tilemaps/**'
+    .pipe plumber()
+    .pipe imagemin()
+    .pipe gulp.dest 'dist/assets/tilemaps/'
+    .pipe refresh server
+
 gulp.task 'sounds', ->
   gulp.src 'resources/sounds/**'
     .pipe plumber()
@@ -96,12 +103,13 @@ gulp.task 'watch', ->
   gulp.watch 'scripts/**/*', ['scripts']
   gulp.watch 'styles/scss/**/*', ['styles']
   gulp.watch 'resources/images/**/*', ['images']
+  gulp.watch 'resources/tilemaps/**/*', ['tilemaps']
   gulp.watch 'resources/sounds/**/*', ['sounds']
   gulp.watch '*.html', ['html']
 
 gulp.task 'clean', ->
   rmdir 'dist', () ->
 
-gulp.task 'build', ['clean', 'scripts', 'bower', 'styles', 'images', 'sounds', 'html']
+gulp.task 'build', ['scripts', 'bower', 'styles', 'images', 'tilemaps', 'sounds', 'html']
 
 gulp.task 'default', ['build', 'webserver', 'livereload', 'watch']

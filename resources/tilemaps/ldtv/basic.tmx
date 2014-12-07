@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="28" height="21" tilewidth="20" tileheight="20">
+ <tileset firstgid="1" name="basic-blue" tilewidth="20" tileheight="20">
+  <image source="basic-blue.png" width="80" height="60"/>
+ </tileset>
+ <tileset firstgid="13" name="basic-player" tilewidth="20" tileheight="20">
+  <image source="../../../dist/assets/tilemaps/ldtv/basic-player.png" width="200" height="200"/>
+ </tileset>
+ <layer name="Blue Platforms" width="28" height="21">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMAowARMBeUYgZsaCCenDBfCZg8suXJgYN6DrYUOSYyXRPmS9Aw1gYUUPO5AxPewYSAwAbBMBAA==
+  </data>
+ </layer>
+ <objectgroup name="Collisions">
+  <object name="platform" type="sprite" x="3.08124" y="281.078" width="16.4333" height="58.5436"/>
+  <object name="platform" type="sprite" x="3.08124" y="299.908" width="96.5456" height="40.0561"/>
+  <object name="platform" type="sprite" x="140.368" y="300.935" width="259.167" height="38.3443"/>
+  <object name="platform" type="sprite" x="160.567" y="280.735" width="139.341" height="21.9111"/>
+  <object name="platform" type="sprite" x="520.388" y="340.648" width="39.0291" height="29.7853"/>
+  <object name="platform" type="sprite" x="460.817" y="360.505" width="98.9421" height="59.913"/>
+  <object name="platform" type="sprite" x="400.219" y="381.047" width="109.898" height="40.0561"/>
+  <object name="platform" type="sprite" x="2.39652" y="400.561" width="430.347" height="19.1722"/>
+ </objectgroup>
+ <objectgroup name="Objects">
+  <object name="player" type="playerStart" x="21.2883" y="381.613" width="17.3461" height="17.3461"/>
+ </objectgroup>
+</map>
