@@ -24,7 +24,7 @@ class MainState extends BaseState {
     this.maxPlatformHeight = 0;
     this.baseGravity       = 0;
 
-    console.log(this)
+    console.log(this);
   }
 
   preload() {
@@ -32,14 +32,16 @@ class MainState extends BaseState {
     game.load.image('circle', '/assets/images/circle.svg');
 
     game.load.tilemap('platforms', 'assets/tilemaps/ldtv/basic.json', null, Phaser.Tilemap.TILED_JSON);
-    game.load.image('sprites', 'assets/tilemaps/ldtv/basic-blue.png');
+    game.load.image('sprite-channel-0', 'assets/tilemaps/ldtv/basic-blue.png');
+    game.load.image('sprite-channel-1', 'assets/tilemaps/ldtv/basic-red.png');
+    game.load.image('sprite-channel-2', 'assets/tilemaps/ldtv/basic-blue.png');
   }
 
   create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     this.map = game.add.tilemap('platforms');
-    this.map.addTilesetImage('basic-blue', 'sprites');
+    this.map.addTilesetImage('basic-blue', 'sprite-channel-0');
 
     this.mapLayer = this.map.createLayer('Blue Platforms');
     this.mapLayer.resizeWorld();
@@ -110,7 +112,7 @@ class MainState extends BaseState {
   }
 
   collect(player, item) {
-    console.log("collect")
+    console.log("collect");
     item.kill();
   }
 
@@ -184,7 +186,11 @@ class MainState extends BaseState {
     // Change Channel
     if (this.nextChannel != this.currentChannel) {
       this.currentChannel = this.nextChannel;
+      this.map.addTilesetImage('basic-blue', 'sprite-channel-'+this.currentChannel);
       console.log(this.currentChannel);
+      console.log(this.map);
+      console.log(this.mapLayer);
+      this.mapLayer.render();
     }
   }
 

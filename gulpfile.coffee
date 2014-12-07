@@ -58,7 +58,7 @@ gulp.task 'scripts', ->
 
 
 gulp.task 'bower', ->
-  gulp.src 'bower_components/phaser/phaser.js'
+  gulp.src 'bower_components/phaser/build/phaser.js'
     .pipe plumber()
     .pipe concat 'phaser.js'
     .pipe gulpif gutil.env.production, uglify()
