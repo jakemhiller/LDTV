@@ -1,10 +1,10 @@
 // jshint esnext:true
 var _          = require('lodash');
-var BaseEntity = require('./base');
+var Sprite     = require('./sprite');
 var helpers    = require('helpers');
 var game       = require('game');
 
-class Player extends BaseEntity {
+class Player extends Sprite {
 
   defaults() {
     return {
@@ -16,22 +16,14 @@ class Player extends BaseEntity {
     };
   }
 
-  initialize(options) {
-    console.log('initialize player');
-
+  constructor(game, options) {
     options = _.extend({}, this.defaults(), options);
 
-    this.instance = game.add.sprite(
-      options.x,
-      options.y,
-      'circle'
-    );
+    super(game, options.x, options.y, 'circle');
 
-    this.instance.anchor.setTo(0.5, 0.5);
+    this.anchor.setTo(0.5, 0.5);
 
-    game.physics.arcade.enable(this.instance);
-
-    this.body = this.instance.body;
+    game.physics.arcade.enable(this);
 
     this.body.bounce.y           = 0.2;
     this.body.bounce.x           = 0.2;
@@ -41,10 +33,12 @@ class Player extends BaseEntity {
     this.body.collideWorldBounds = true;
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
+
+    game.add.existing(this);
   }
 
   isTouching(direction='down') {
-    return this.instance.body.touching[direction];
+    return this.body.touching[direction];
   }
 
   canCollide() {

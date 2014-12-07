@@ -24,6 +24,8 @@ class MainState extends BaseState {
     this.countPlatforms    = 12;
     this.maxPlatformHeight = 0;
     this.baseGravity       = 0;
+
+    console.log(this)
   }
 
   preload() {
@@ -31,23 +33,9 @@ class MainState extends BaseState {
     game.load.image('circle', '/assets/images/circle.svg');
   }
 
-  createPlatforms() {
-    this.platforms = new Platforms();
-
-    this.platforms.add({
-      x: 0,
-      y: pY,
-      w: game.world.width,
-      h: platHeight,
-      color: colors[i]
-    });
-  }
-
   create() {
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
-    this.platforms = new Platforms();
-    this.collectables = new Collectables();
 
     this.groundPlatform = new Solid({
       x: 0,
@@ -57,7 +45,7 @@ class MainState extends BaseState {
       color: 'red'
     });
 
-    this.player = new Player({
+    this.player = new Player(game, {
       y: game.world.height - (35 + this.groundPlatform.body.height),
       color: '#FFFFFF'
     });
@@ -69,34 +57,38 @@ class MainState extends BaseState {
     var colors = ['#5D2EFF', '#844BFF', '#AE63FF', '#CF71FF', '#EF7AFF'];
     var collPositions = [];
 
+    this.platforms = game.add.group();
     for (var i = 0; i <= platCount; i++) {
       platY = (platHeight * (i+1));
       var pY = game.world.height - (platY + this.groundPlatform.body.height);
       collPositions.push(pY + (platHeight / 2));
-      this.platforms.add({
+      var platform = new Platforms(game, 0, pY, {
         x: 0,
         y: pY,
         w: game.world.width,
         h: platHeight,
         color: colors[i]
       });
+      this.platforms.add(platform);
     }
 
-    var collCount = 10;
 
+    this.collectables = game.add.group();
+    var collCount = 10;
     for (var i = 0; i <= collCount; i++) {
       platY = (platHeight * (i+1));
-      this.collectables.add({
+      var collectable = new Collectables(game, {
         x: i * Math.round(game.world.width / collCount),
         y: collPositions[Math.floor(Math.random()*collPositions.length)],
         w: 20,
         h: 20
       });
+      this.collectables.add(collectable);
     }
 
     this.cursors = game.input.keyboard.createCursorKeys();
 
-    this.currentChannel = this.nextChannel = 0
+    this.currentChannel = this.nextChannel = 0;
 
     var spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     spaceKey.onDown.add(this.changeChannel, this); 
@@ -110,15 +102,31 @@ class MainState extends BaseState {
   }
 
   collect(player, item) {
+    console.log("collect")
     item.kill();
   }
 
+  collide(a, b) {
+    // Check if collision turned off for either object
+    if (!a.canCollide() || !b.canCollide()) {
+      return false;
+    }
+
+    if (a.canPhaseDown() && b.canPhaseDown()) {
+      return false;
+    } else if (a.canPhaseUp() && b.canPhaseUp()) {
+      return false;
+    }
+
+    return true;
+  }
+
   update() {
-    game.physics.arcade.collide(this.player.instance, this.groundPlatform.instance);
+    game.physics.arcade.collide(this.player, this.groundPlatform.instance);
 
-    game.physics.arcade.overlap(this.player.instance, this.collectables.group, this.collect, null, this);
+    game.physics.arcade.overlap(this.player, this.collectables, this.collect, null, this);
 
-    game.physics.arcade.collide(this.collectables.group, this.platforms.group);
+    game.physics.arcade.collide(this.collectables, this.platforms, _.noop, this.collide);
 
     var pVelo = this.player.body.velocity;
 
@@ -127,23 +135,10 @@ class MainState extends BaseState {
     var xSmooth = 20;
 
     if (this.playerScale < 0) {
-      this.player.instance.kill()
+      this.player.kill()
     };
 
-    game.physics.arcade.collide(this.player.instance, this.platforms.group, _.noop, function(a, b) {
-      // Check if collision turned off for either object
-      if (!this.player.canCollide() || !this.platforms.canCollide()) {
-        return false;
-      }
-
-      if (this.platforms.canPhaseDown() && this.player.canPhaseDown()) {
-        return false;
-      } else if (this.platforms.canPhaseUp() && this.player.canPhaseUp()) {
-        return false;
-      }
-
-      return true;
-    }, this);
+    game.physics.arcade.collide(this.player, this.platforms, _.noop, this.collide)
 
     var onFloor = this.player.isTouching('down');
 
@@ -187,7 +182,7 @@ class MainState extends BaseState {
 
   render() {
     game.debug.bodyInfo(this.player, 32, 64);
-    game.debug.spriteBounds(this.player.instance, 'red', false);
+    game.debug.spriteBounds(this.player, 'red', false);
   }
 }
 

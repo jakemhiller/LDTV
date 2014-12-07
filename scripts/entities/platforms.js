@@ -1,10 +1,10 @@
 // jshint esnext:true
 var _          = require('lodash');
-var BaseEntity = require('./base');
+var Sprite     = require('./sprite');
 var helpers    = require('helpers');
 var game       = require('game');
 
-class Platforms extends BaseEntity {
+class Platforms extends Sprite {
 
   defaults() {
     return {};
@@ -20,39 +20,25 @@ class Platforms extends BaseEntity {
     };
   }
 
-  initialize(options) {
-    console.log('initialize platforms');
-    options = _.extend({}, this.defaults(), options);
-    this.group = game.add.group();
-  }
-
-  add(options) {
-    console.log('added platform');
-    options = _.extend({}, this.entity_defaults(), options);
-
-    var sprite = game.add.sprite(
-      options.x,
-      options.y,
-      helpers.createBlock(options.w, options.h, options.color)
-    );
-
-    game.physics.arcade.enableBody(sprite);
-
-    sprite.body.immovable = true;
-
-    this.group.add(sprite);
+  constructor(game, x, y, options) {
+    this.options = _.extend({}, this.defaults(), options);
+    super(game, x, y, helpers.createBlock(this.options.w, this.options.h, this.options.color));
+    
+    game.physics.arcade.enableBody(this);
+    game.add.existing(this);
+    this.body.immovable = true;
   }
 
   canCollide() {
-    return game.state.getCurrentState().currentChannel != 2;
+    return this.game.state.getCurrentState().currentChannel != 2;
   }
 
   canPhaseDown() {
-    return game.state.getCurrentState().currentChannel == 0;
+    return this.game.state.getCurrentState().currentChannel == 0;
   }
 
   canPhaseUp() {
-    return game.state.getCurrentState().currentChannel == 0;
+    return this.game.state.getCurrentState().currentChannel == 0;
   }
 
 }

@@ -1,10 +1,10 @@
 // jshint esnext:true
 var _          = require('lodash');
-var BaseEntity = require('./base');
+var Sprite     = require('./sprite');
 var helpers    = require('helpers');
 var game       = require('game');
 
-class Platforms extends BaseEntity {
+class Collectable extends Sprite {
 
   defaults() {
     return {};
@@ -20,35 +20,32 @@ class Platforms extends BaseEntity {
     };
   }
 
-  initialize(options) {
-    options = _.extend({}, this.defaults(), options);
-    this.group = game.add.group();
+  constructor(game, options) {
+    options = _.extend({}, this.entity_defaults(), options);
+    super(game, options.x, options.y, helpers.createBlock(options.w, options.h, options.color));
+
+    game.physics.arcade.enableBody(this);
+
+    this.body.bounce.y           = 0.2;
+    this.body.bounce.x           = 0.2;
+    this.body.gravity.y          = 1500;
+    this.body.maxVelocity.y      = 5000;
+    this.body.maxVelocity.x      = 400;
+    this.body.collideWorldBounds = true;
+    this.body.velocity.x = 0;
+    this.body.velocity.y = 0;
+
+    game.add.existing(this);
   }
 
-  add(options) {
+  canPhaseDown() {
+    return false;
+  }
 
-    options = _.extend({}, this.entity_defaults(), options);
-
-    var sprite = game.add.sprite(
-      options.x,
-      options.y,
-      helpers.createBlock(options.w, options.h, options.color)
-    );
-
-    game.physics.arcade.enableBody(sprite);
-
-    sprite.body.bounce.y           = 0.2;
-    sprite.body.bounce.x           = 0.2;
-    sprite.body.gravity.y          = 1500;
-    sprite.body.maxVelocity.y      = 5000;
-    sprite.body.maxVelocity.x      = 400;
-    sprite.body.collideWorldBounds = true;
-    sprite.body.velocity.x = 0;
-    sprite.body.velocity.y = 0;
-
-    this.group.add(sprite);
+  canPhaseUp() {
+    return false;
   }
 
 }
 
-module.exports = Platforms;
+module.exports = Collectable;
