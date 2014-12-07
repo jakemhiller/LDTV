@@ -1,6 +1,8 @@
 // jshint esnext:true
 
 var _         = require('lodash');
+var PhaserDebug = require('phaser-debug');
+
 var BaseState = require('states/base');
 var game      = require('game');
 var helpers   = require('helpers');
@@ -38,13 +40,14 @@ class MainState extends BaseState {
   }
 
   create() {
+    this.game.plugins.add(PhaserDebug);
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     this.map = game.add.tilemap('platforms');
     this.map.addTilesetImage('basic-blue', 'sprite-channel-0');
 
-    this.mapLayer = this.map.createLayer('Blue Platforms');
-    this.mapLayer.resizeWorld();
+    // this.mapLayer = this.map.createLayer('Blue Platforms');
+    // this.mapLayer.resizeWorld();
     this.map.setCollisionBetween(0, 1000);
 
     this.groundPlatform = new Solid({
@@ -186,16 +189,14 @@ class MainState extends BaseState {
     // Change Channel
     if (this.nextChannel != this.currentChannel) {
       this.currentChannel = this.nextChannel;
-      this.map.addTilesetImage('basic-blue', 'sprite-channel-'+this.currentChannel);
-      console.log(this.currentChannel);
-      console.log(this.map);
-      console.log(this.mapLayer);
-      this.mapLayer.render();
     }
   }
 
   render() {
-    game.debug.bodyInfo(this.player, 32, 64);
+    if (this.player) {
+      game.debug.text(this.player.body.touching.down ? 'touching down' : '', 10, 10);
+      game.debug.text(this.player.body.blocked.down ? 'blocked down' : '', 10, 30);
+    }
     game.debug.spriteBounds(this.player, 'red', false);
   }
 }

@@ -12,6 +12,7 @@
     "es6ify": "latest",
     "gulp-traceur": "latest",
     "lodash": "latest",
+    "phaser-debug": "^1.1.4",
     "phaser-tiled": "^1.2.2",
     "vinyl-source-stream": "latest"
   },

@@ -1,5 +1,6 @@
 // jshint esnext:true
-//
+
+
 class BaseState {
   constructor(name) {
     this.name = name;

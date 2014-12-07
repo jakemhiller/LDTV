@@ -8,6 +8,7 @@ class Player extends Sprite {
 
   defaults() {
     return {
+      name: 'Player',
       x: Math.round(game.world.width/2),
       y: game.world.height,
       w: 30,
@@ -38,7 +39,7 @@ class Player extends Sprite {
   }
 
   isTouching(direction='down') {
-    return this.body.blocked[direction] || this.body.touching[direction];
+    return this.body.touching[direction] || this.body.blocked[direction];
   }
 
   canCollide() {
