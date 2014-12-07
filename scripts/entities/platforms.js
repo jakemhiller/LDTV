@@ -25,10 +25,14 @@ class Platforms extends Sprite {
     this.options = _.extend({}, this.entity_defaults(), options);
     // super(game, options.x, options.y, utils.createBlock(this.options.w, this.options.h, this.options.color));
     super(game, options.x, options.y, 'background');
-
+    this.frame = 1;
     game.physics.arcade.enableBody(this);
     game.add.existing(this);
     this.body.immovable = true;
+  }
+
+  update() {
+    this.frame = this.game.state.getCurrentState().currentChannel;
   }
 
   canCollide() {

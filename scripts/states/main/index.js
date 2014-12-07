@@ -30,7 +30,7 @@ class MainState extends BaseState {
   }
 
   preload() {
-    game.stage.backgroundColor = '#000';
+    game.stage.backgroundColor = '#fff';
     game.load.image('circle', '/assets/images/circle.svg');
 
     game.load.tilemap('platforms', 'assets/tilemaps/ldtv/basic.json', null, Phaser.Tilemap.TILED_JSON);
@@ -38,7 +38,7 @@ class MainState extends BaseState {
     game.load.image('sprite-channel-1', 'assets/tilemaps/ldtv/basic-red.png');
     game.load.image('sprite-channel-2', 'assets/tilemaps/ldtv/basic-blue.png');
 
-    game.load.spritesheet('background', 'assets/tilemaps/ldtv/bg-sprite.png', 20, 20, 1);
+    game.load.spritesheet('background', 'assets/tilemaps/ldtv/bg-sprite.png', 20, 20, 3);
   }
 
 
@@ -66,6 +66,9 @@ class MainState extends BaseState {
   create() {
     this.game.plugins.add(PhaserDebug);
     game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    this.background = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'background');
+    this.background.frame = 2;
 
     this.map = game.add.tilemap('platforms');
 
@@ -109,7 +112,6 @@ class MainState extends BaseState {
   }
 
   update() {
-
     game.physics.arcade.overlap(this.player, this.collectables, this.collect, null, this);
 
     game.physics.arcade.collide(this.collectables, this.platforms, _.noop, this.collide);
@@ -158,6 +160,7 @@ class MainState extends BaseState {
     // Change Channel
     if (this.nextChannel != this.currentChannel) {
       this.currentChannel = this.nextChannel;
+      console.log(this.currentChannel);
     }
   }
 
