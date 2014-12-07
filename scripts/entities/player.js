@@ -43,8 +43,8 @@ class Player extends BaseEntity {
     this.body.velocity.y = 0;
   }
 
-  isOnFloor() {
-    return this.instance.body.touching.down;
+  isTouching(direction='down') {
+    return this.instance.body.touching[direction];
   }
 
   canCollide() {

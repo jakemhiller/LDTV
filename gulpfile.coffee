@@ -104,4 +104,4 @@ gulp.task 'clean', ->
 
 gulp.task 'build', ['clean', 'scripts', 'bower', 'styles', 'images', 'sounds', 'html']
 
-gulp.task 'default', ['webserver', 'livereload', 'build', 'watch']
+gulp.task 'default', ['build', 'webserver', 'livereload', 'watch']

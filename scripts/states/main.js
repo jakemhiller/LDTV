@@ -31,60 +31,38 @@ class MainState extends BaseState {
     game.load.image('circle', '/assets/images/circle.svg');
   }
 
-  createFrame() {
-    this.frames = new Platforms();
+  createPlatforms() {
+    this.platforms = new Platforms();
 
-    // bottom
-    this.frames.add({
-      y: game.world.height - this.frameHeight,
-      w: game.world.width,
-      h: this.frameHeight,
-      color: '#3E0F7B'
-    });
-
-    // top
-    this.frames.add({
-      y: 0,
-      w: game.world.width,
-      h: this.frameHeight,
-      color: '#3E0F7B'
-    });
-
-
-    this.frames.add({
-      y: 0,
-      x: game.world.width - this.frameWidth,
-      w: this.frameWidth,
-      h: game.world.height,
-      color: '#3E0F7B'
-    });
-
-    this.frames.add({
-      y: 0,
+    this.platforms.add({
       x: 0,
-      w: this.frameWidth,
-      h: game.world.height,
-      color: '#3E0F7B'
+      y: pY,
+      w: game.world.width,
+      h: platHeight,
+      color: colors[i]
     });
   }
 
   create() {
-    this.frameHeight = game.world.height * 0.2;
-    this.frameWidth = game.world.width * 0.2;
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
     this.platforms = new Platforms();
     this.collectables = new Collectables();
-    var groundHeight = 20;
+
+    this.groundPlatform = new Solid({
+      x: 0,
+      y: game.world.height - 2,
+      h: 2,
+      w: game.world.width,
+      color: 'red'
+    });
 
     this.player = new Player({
-      y: game.world.height - (this.frameHeight + 35),
+      y: game.world.height - (35 + this.groundPlatform.body.height),
       color: '#FFFFFF'
     });
 
-    this.createFrame();
-
-    var platHeight = Math.round((game.world.height - (this.frameHeight * 2)) / 5);
+    var platHeight = Math.round((game.world.height - this.groundPlatform.body.height) / 5);
     var platY      = platHeight;
     var platCount  = 5;
 
@@ -93,7 +71,7 @@ class MainState extends BaseState {
 
     for (var i = 0; i <= platCount; i++) {
       platY = (platHeight * (i+1));
-      var pY = game.world.height - (platY + this.frameHeight);
+      var pY = game.world.height - (platY + this.groundPlatform.body.height);
       collPositions.push(pY + (platHeight / 2));
       this.platforms.add({
         x: 0,
@@ -136,9 +114,11 @@ class MainState extends BaseState {
   }
 
   update() {
-    game.physics.arcade.collide(this.player.instance, this.frames.group);
+    game.physics.arcade.collide(this.player.instance, this.groundPlatform.instance);
 
     game.physics.arcade.overlap(this.player.instance, this.collectables.group, this.collect, null, this);
+
+    game.physics.arcade.collide(this.collectables.group, this.platforms.group);
 
     var pVelo = this.player.body.velocity;
 
@@ -165,18 +145,18 @@ class MainState extends BaseState {
       return true;
     }, this);
 
-    var onFloor = this.player.isOnFloor();
+    var onFloor = this.player.isTouching('down');
 
     if (this.cursors.left.isDown) {
       // stop right momentum
-      if (pVelo.x > 0) {
+      if (pVelo.x > 0 || this.player.isTouching('left')) {
         pVelo.x = 0;
       }
       pVelo.x += -xSpeed;
 
     } else if (this.cursors.right.isDown) {
       // stop left momentum
-      if (pVelo.x < 0) {
+      if (pVelo.x < 0 || this.player.isTouching('right')) {
         pVelo.x = 0;
       }
 
@@ -195,7 +175,6 @@ class MainState extends BaseState {
     }
 
     if (this.cursors.up.isDown && onFloor) {
-      var modifier = this.cursors.up.duration;
       pVelo.y = -ySpeed;
     }
 

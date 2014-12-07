@@ -37,6 +37,15 @@ class Platforms extends BaseEntity {
 
     game.physics.arcade.enableBody(sprite);
 
+    sprite.body.bounce.y           = 0.2;
+    sprite.body.bounce.x           = 0.2;
+    sprite.body.gravity.y          = 1500;
+    sprite.body.maxVelocity.y      = 5000;
+    sprite.body.maxVelocity.x      = 400;
+    sprite.body.collideWorldBounds = true;
+    sprite.body.velocity.x = 0;
+    sprite.body.velocity.y = 0;
+
     this.group.add(sprite);
   }
 
