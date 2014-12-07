@@ -37,6 +37,8 @@ class MainState extends BaseState {
     game.load.image('sprite-channel-0', 'assets/tilemaps/ldtv/basic-blue.png');
     game.load.image('sprite-channel-1', 'assets/tilemaps/ldtv/basic-red.png');
     game.load.image('sprite-channel-2', 'assets/tilemaps/ldtv/basic-blue.png');
+
+    game.load.spritesheet('background', 'assets/tilemaps/ldtv/bg-sprite.png', 20, 20, 1);
   }
 
 
@@ -87,7 +89,7 @@ class MainState extends BaseState {
   }
 
   collect(player, item) {
-    console.log("collect");
+    console.log('collect');
     item.kill();
   }
 
@@ -118,7 +120,7 @@ class MainState extends BaseState {
     var ySpeed = 550;
     var xSmooth = 20;
 
-    game.physics.arcade.collide(this.player, this.platforms, _.noop, this.collide)
+    game.physics.arcade.collide(this.player, this.platforms, _.noop, this.collide);
 
     var onFloor = this.player.isTouching('down');
 
