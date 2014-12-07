@@ -164,6 +164,102 @@
          "width":28,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "height":21,
+         "name":"Collectables",
+         "objects":[
+                {
+                 "height":20,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":20,
+                 "x":0,
+                 "y":260
+                }, 
+                {
+                 "height":20,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":20,
+                 "x":60,
+                 "y":280
+                }, 
+                {
+                 "height":20,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":20,
+                 "x":220,
+                 "y":260
+                }, 
+                {
+                 "height":20,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":20,
+                 "x":420,
+                 "y":360
+                }, 
+                {
+                 "height":20,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":20,
+                 "x":240,
+                 "y":380
+                }, 
+                {
+                 "height":20,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":20,
+                 "x":540,
+                 "y":320
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":28,
+         "x":0,
+         "y":0
         }],
  "orientation":"orthogonal",
  "properties":

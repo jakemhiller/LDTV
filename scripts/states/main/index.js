@@ -51,17 +51,15 @@ class MainState extends BaseState {
     });
   }
 
-  createPlatforms() {
-    var platforms = game.add.group();
-    var platformData = mapUtils.findObjects(this.map, 'Platforms');
+  createGroup(layer, Entity) {
+    var group = game.add.group();
+    var elementData = mapUtils.findObjects(this.map, layer);
 
-    _.each(platformData, function(element) {
-      mapUtils.createFromObject(element, platforms);
+    _.each(elementData, function(element) {
+      mapUtils.createFromObject(element, group, Entity);
     }, this);
 
-    console.log(platforms);
-
-    return platforms;
+    return group;
   }
 
   create() {
@@ -69,43 +67,10 @@ class MainState extends BaseState {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     this.map = game.add.tilemap('platforms');
-    this.map.addTilesetImage('basic-blue', 'sprite-channel-0');
-    console.log(this.map);
-    // this.mapLayer = this.map.createLayer('Blue Platforms');
-    // this.mapLayer.resizeWorld();
-    // this.map.setCollisionBetween(0, 1000);
 
-    this.groundPlatform = new Solid({
-      x: 0,
-      y: game.world.height - 2,
-      h: 2,
-      w: game.world.width,
-      color: 'red'
-    });
-
-    this.player = this.createPlayer();
-
-    var platHeight = Math.round((game.world.height - this.groundPlatform.body.height) / 5);
-    var platY      = platHeight;
-    var platCount  = 5;
-
-    var colors = ['#5D2EFF', '#844BFF', '#AE63FF', '#CF71FF', '#EF7AFF'];
-    var collPositions = [];
-
-    this.platforms = this.createPlatforms();
-
-    this.collectables = game.add.group();
-    var collCount = 10;
-    for (var i = 0; i <= collCount; i++) {
-      platY = (platHeight * (i+1));
-      var collectable = new Collectables(game, {
-        x: i * Math.round(game.world.width / collCount),
-        y: collPositions[Math.floor(Math.random()*collPositions.length)],
-        w: 20,
-        h: 20
-      });
-      this.collectables.add(collectable);
-    }
+    this.player       = this.createPlayer();
+    this.platforms    = this.createGroup('Platforms', Platforms);
+    this.collectables = this.createGroup('Collectables', Collectables);
 
     this.cursors = game.input.keyboard.createCursorKeys();
 
@@ -143,11 +108,6 @@ class MainState extends BaseState {
   }
 
   update() {
-    // tilemap
-    game.physics.arcade.collide(this.player, this.mapLayer);
-    game.physics.arcade.collide(this.collectables, this.mapLayer);
-
-    game.physics.arcade.collide(this.player, this.groundPlatform.instance);
 
     game.physics.arcade.overlap(this.player, this.collectables, this.collect, null, this);
 

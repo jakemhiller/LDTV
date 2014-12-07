@@ -17,7 +17,7 @@ class Platform extends BaseEntity {
   }
 
   initialize(options) {
-    console.log('initialize platform');
+    console.log('create solid');
     options = _.extend({}, this.defaults(), options);
 
     this.instance = game.add.sprite(

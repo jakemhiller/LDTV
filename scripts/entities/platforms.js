@@ -20,9 +20,10 @@ class Platforms extends Sprite {
     };
   }
 
-  constructor(game, x, y, options) {
-    this.options = _.extend({}, this.defaults(), options);
-    super(game, x, y, utils.createBlock(this.options.w, this.options.h, this.options.color));
+  constructor(game, options) {
+    console.log('create platform');
+    this.options = _.extend({}, this.entity_defaults(), options);
+    super(game, options.x, options.y, utils.createBlock(this.options.w, this.options.h, this.options.color));
 
     game.physics.arcade.enableBody(this);
     game.add.existing(this);

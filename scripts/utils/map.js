@@ -1,31 +1,47 @@
+var _    = require('lodash');
+var game = require('game');
 
 var MapUtils = {
     //find objects in a Tiled layer that containt a property called "type" equal to a certain value
   findObjects: function(map, layer, type) {
     var result = [];
+    console.log(layer, map.objects[layer]);
     map.objects[layer].forEach(function(element){
-      if(type && (element.type === type) || (element.properties.type === type)) {
-        //Phaser uses top left, Tiled bottom left so we have to adjust the y position
-        //also keep in mind that the cup images are a bit smaller than the tile which is 16x16
-        //so they might not be placed in the exact pixel position as in Tiled
-        element.y -= map.tileHeight;
+
+      //omit type to include all objects in layer
+      if (!type) {
         result.push(element);
-      } else if (!type) {
-        // omit type to include all objects
-        element.y -= map.tileHeight;
+      } else if ((element.type === type) || (element.properties.type === type)) {
         result.push(element);
       }
+
     });
     return result;
   },
 
-  createFromObject: function(element, group) {
-    var sprite = group.create(element.x, element.y, element.properties.sprite);
+  createFromObject: function(element, group, Entity) {
+    var sprite;
+    var props;
 
+    if (Entity) {
+
+      props = _.extend({
+        x: element.x,
+        y: element.y,
+        w: element.width,
+        h: element.height
+      }, element.properties);
+
+      sprite = new Entity(game, props);
+      group.add(sprite);
+    } else {
+
+      sprite = group.create(element.x, element.y, element.properties.sprite);
       //copy all properties to the sprite
       Object.keys(element.properties).forEach(function(key){
         sprite[key] = element.properties[key];
       });
+    }
   }
 };
 
