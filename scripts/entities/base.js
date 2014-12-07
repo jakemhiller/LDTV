@@ -10,6 +10,18 @@ class BaseEntity {
   initialize(options) {
 
   }
+
+  canCollide() {
+    return true;
+  }
+
+  canPhaseDown() {
+    return false;
+  }
+
+  canPhaseUp() {
+    return true;
+  }
 }
 
 module.exports = BaseEntity;

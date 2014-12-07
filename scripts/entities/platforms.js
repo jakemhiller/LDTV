@@ -43,6 +43,18 @@ class Platforms extends BaseEntity {
     this.group.add(sprite);
   }
 
+  canCollide() {
+    return game.state.getCurrentState().currentChannel != 2;
+  }
+
+  canPhaseDown() {
+    return game.state.getCurrentState().currentChannel == 0;
+  }
+
+  canPhaseUp() {
+    return game.state.getCurrentState().currentChannel == 0;
+  }
+
 }
 
 module.exports = Platforms;

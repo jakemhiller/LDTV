@@ -47,6 +47,17 @@ class Player extends BaseEntity {
     return this.instance.body.touching.down;
   }
 
+  canCollide() {
+    return true;
+  }
+
+  canPhaseDown() {
+    return (this.body.velocity.y > 0 && game.state.getCurrentState().cursors.down.isDown);
+  }
+
+  canPhaseUp() {
+    return (this.body.velocity.y < 0 && game.state.getCurrentState().cursors.up.isDown);
+  }
 }
 
 module.exports = Player;

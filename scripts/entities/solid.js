@@ -31,7 +31,6 @@ class Platform extends BaseEntity {
     this.body           = this.instance.body;
     this.body.immovable = true;
   }
-
 }
 
 module.exports = Platform;

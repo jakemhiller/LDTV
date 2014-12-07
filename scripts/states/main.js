@@ -117,10 +117,18 @@ class MainState extends BaseState {
     }
 
     this.cursors = game.input.keyboard.createCursorKeys();
+
+    this.currentChannel = this.nextChannel = 0
+
+    var spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    spaceKey.onDown.add(this.changeChannel, this); 
   }
 
-  shouldPhasePlatforms() {
-    return (this.cursors.down.isDown);
+  changeChannel() {
+    this.nextChannel = this.currentChannel + 1;
+    if (this.nextChannel >= 3) {
+      this.nextChannel = 0
+    }
   }
 
   collect(player, item) {
@@ -138,12 +146,24 @@ class MainState extends BaseState {
     var ySpeed = 550;
     var xSmooth = 20;
 
-    if (pVelo.y > 0 && !this.shouldPhasePlatforms()) {
-      // Collide with platforms if above them and not pressing down
-      game.physics.arcade.collide(this.player.instance, this.platforms.group, _.noop, function() {
-        return !this.shouldPhasePlatforms();
-      }, this);
-    }
+    if (this.playerScale < 0) {
+      this.player.instance.kill()
+    };
+
+    game.physics.arcade.collide(this.player.instance, this.platforms.group, _.noop, function(a, b) {
+      // Check if collision turned off for either object
+      if (!this.player.canCollide() || !this.platforms.canCollide()) {
+        return false;
+      }
+
+      if (this.platforms.canPhaseDown() && this.player.canPhaseDown()) {
+        return false;
+      } else if (this.platforms.canPhaseUp() && this.player.canPhaseUp()) {
+        return false;
+      }
+
+      return true;
+    }, this);
 
     var onFloor = this.player.isOnFloor();
 
@@ -178,13 +198,18 @@ class MainState extends BaseState {
       var modifier = this.cursors.up.duration;
       pVelo.y = -ySpeed;
     }
+
+    // Change Channel
+    if (this.nextChannel != this.currentChannel) {
+      this.currentChannel = this.nextChannel;
+      console.log(this.currentChannel)
+    }
   }
 
   render() {
     game.debug.bodyInfo(this.player, 32, 64);
     game.debug.spriteBounds(this.player.instance, 'red', false);
   }
-
 }
 
 module.exports = MainState;
